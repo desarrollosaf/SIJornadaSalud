@@ -8,58 +8,55 @@
 
 <!-- sección principal -->
 <section class="js-hero">
-  <!-- fondo magenta con degradado oscuro a la izquierda -->
   <div class="js-hero-bg"></div>
 
   <!-- decoraciones -->
-  <img
-    src="images/hojas-izquierda.png"
-    alt=""
-    class="js-flores js-flores--left"
-  />
-  <img
-    src="images/hojas-izquierda.png"
-    alt=""
-    class="js-flores js-flores--right"
-  />
-  <img
-    src="images/Jornada-de-Salud-mujer.png"
-    alt="Salud femenina"
-    class="js-uterus"
-  />
-  <br><br>
+  <img src="images/hojas-izquierda.png" alt="" class="js-flores js-flores--left" />
+  <img src="images/hojas-izquierda.png" alt="" class="js-flores js-flores--right" />
 
-  <!-- contenido de texto -->
-  <div class="js-content">
-    <h1 class="js-title">
-      JORNADA DE<br />
-      <span>SALUD</span>
-    </h1>
+  <!-- contenedor que se adapta solo -->
+  <div class="js-hero-inner">
+    <!-- Imagen (irá arriba en pantallas pequeñas, a la derecha en grandes) -->
+    <div class="js-hero-img">
+      <img
+        src="images/Jornada-de-Salud-mujer.png"
+        alt="Salud femenina"
+        class="js-uterus"
+      />
+    </div>
 
-    <h2 class="js-subtitle">Citología cervical (Papanicolau)</h2>
+    <!-- Texto -->
+    <div class="js-content">
+      <h1 class="js-title">
+        JORNADA DE<br />
+        <span>SALUD</span>
+      </h1>
 
-    <p class="js-desc">
-      Por la prevención y detección oportuna del cáncer cervicouterino,
-      dirigida a servidoras públicas del Congreso y sus dependencias
-    </p>
+      <h2 class="js-subtitle">Citología cervical (Papanicolau)</h2>
 
-    <p class="js-date">8 y 9 de diciembre 2025</p>
-    <p class="js-time">9:00 a 14:00 horas</p>
+      <p class="js-desc">
+        Por la prevención y detección oportuna del cáncer cervicouterino,
+        dirigida a servidoras públicas del Congreso y sus dependencias
+      </p>
 
-    <p class="js-address">
-      Calle Plutarco González número 111, entre Pedro Ascencio y Villada.
-      Colonia La Merced y Alameda. Toluca, Edomex.
-    </p>
+      <p class="js-date">8 y 9 de diciembre 2025</p>
+      <p class="js-time">9:00 a 14:00 horas</p>
 
-    <p class="js-age">
-      Estudio para mujeres de entre 25 años y 64 años de edad
-    </p>
+      <p class="js-address">
+        Calle Plutarco González número 111, entre Pedro Ascencio y Villada.
+        Colonia La Merced y Alameda. Toluca, Edomex.
+      </p>
 
-    <button class="js-btn" [routerLink]="['/auth/login']">Regístrate</button>
+      <p class="js-age">
+        Estudio para mujeres de entre 25 años y 64 años de edad
+      </p>
 
-    <p class="js-notes">
-      En las 48 horas previas: No haber tenido relaciones, no haber realizado duchas vaginales,
-      no haberse aplicado ningún tratamiento médico vaginal (óvulos, cremas o pomadas).
-    </p>
+      <button class="js-btn"  [routerLink]="['/auth/login']">Regístrate</button>
+
+      <p class="js-notes">
+        En las 48 horas previas: No haber tenido relaciones, no haber realizado duchas vaginales,
+        no haberse aplicado ningún tratamiento médico vaginal (óvulos, cremas o pomadas).
+      </p>
+    </div>
   </div>
 </section>
