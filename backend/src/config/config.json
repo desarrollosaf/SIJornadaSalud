@@ -1,9 +1,9 @@
 {
   "development": {
-     "username": "homestead",
-     "password": "secret",
-     "database": "jornadaMujeres",
-     "host": "192.168.10.10",
+     "username": "usr_jornadamujeres",
+     "password": "4UYxXzz6wIuAxvfzN0z7",
+     "database": "adminplem_jornadamujeres",
+     "host": "192.168.36.53",
      "dialect": "mysql"
   },
   "production": {
