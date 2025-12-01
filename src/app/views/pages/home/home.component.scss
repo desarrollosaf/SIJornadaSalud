@@ -1,165 +1,223 @@
-.header {
+:host {
+  display: block;
+}
+
+/* ------------ HEADER BLANCO ------------ */
+.js-header {
+  background: #ffffff;
+  padding: 10px 0;
+}
+
+.js-header-inner {
+  max-width: 1180px;
+  margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 40px;
   align-items: center;
-  padding: 15px 30px;
-  border-bottom: 1px solid #ccc;
 }
 
-.header img {
-  height: 60px;
-  max-width: 100%;
+.js-header-inner img {
+  height: 58px;
+  object-fit: contain;
 }
 
-.banner {
-  background: #7d0037;
-  color: white;
-  text-align: center;
-  padding: 30px 20px;
-}
-
-.banner h1 {
-  margin: 0;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.banner p {
-  margin: 10px 0 20px;
-  font-size: 16px;
-}
-
-.fechas {
-  display: inline-block;
-  background: #d6a24c;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.horario {
-  margin-top: 15px;
-  font-size: 16px;
-}
-
-.sedes {
-  margin-top: 20px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 30px;
-  background: #f9f9f9;
-  gap: 20px;
-}
-
-.box {
-  flex: 1 1 45%;
-  background: white;
-  border-radius: 6px;
-  padding: 20px;
+/* ------------ SECCIÓN PRINCIPAL ------------ */
+.js-hero {
+  position: relative;
+  min-height: calc(100vh - 80px);
+  padding: 40px 80px 50px;
+  overflow: hidden;
   box-sizing: border-box;
-  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
-  min-width: 280px;
 }
 
-.box h2 {
-  color: #7d0037;
-  font-size: 18px;
-  margin-bottom: 10px;
+/* fondo magenta */
+.js-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #5b0d39 0%, rgba(91, 13, 57, 0.9) 25%, rgba(91, 13, 57, 0) 55%),
+    linear-gradient(90deg, #b11363 0%, #8d2958 60%, #8d3b5d 100%);
+  z-index: -3;
 }
 
-.box ul {
-  padding-left: 20px;
-  margin: 0;
+/* flores laterales */
+.js-flores {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
 }
 
-.box ul li {
-  margin-bottom: 8px;
-  font-size: 14px;
+.js-flores--left {
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 520px; /* ajusta si la quieres más grande/chica */
 }
 
-.footer {
-  padding: 20px;
-  background: #fff;
-  text-align: center;
-  font-size: 13px;
-  color: #555;
+.js-flores--right {
+  right: 1px;
+  top: 50%;
+  transform: translateY(-50%) scaleX(-1);
+  height: 520px;
+}
+
+/* ilustración principal */
+.js-uterus {
+  position: absolute;
+  right: 380px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 360px;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.35));
+  z-index: 0;
+}
+
+/* ------------ TEXTO ------------ */
+.js-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  color: #ffffff;
+  margin-left: 300px;
+}
+
+.js-title {
+  margin: 0 0 6px;
+  font-size: 60px;
+  line-height: 0.9;
+  font-weight: 800;
+}
+
+.js-title span {
+  font-size: 72px;
+}
+
+.js-subtitle {
+  margin: 8px 0 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffd34e;
+}
+
+.js-desc {
+  margin: 10px 0 18px;
+  font-size: 16px;
   line-height: 1.5;
+  max-width: 560px;
 }
 
-.services {
-  text-align: center;
-  font-size: 18px;
-  color: #7d0037;
-  font-weight: bold;
-  margin: 20px 0;
-}
-
-.qr {
-  margin-top: 20px;
-  background: #7d0037;
-  color: white;
-  padding: 30px;
-  border-radius: 10px;
-  font-weight: bold;
+.js-date {
+  margin: 0;
   font-size: 20px;
-  text-align: center;
-  width: 120px;
-  margin-left: auto;
-  margin-right: auto;
+  font-weight: 700;
+  color: #ffd34e;
 }
 
-/* 🔹 Responsivo */
-@media (max-width: 768px) {
-  .banner h1 {
-    font-size: 22px;
+.js-time {
+  margin: 4px 0 16px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffd34e;
+}
+
+.js-address {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.js-age {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 26px;
+}
+
+/* botón */
+.js-btn {
+  padding: 13px 48px;
+  border-radius: 40px;
+  border: none;
+  background: #ffffff;
+  color: #b11363;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.js-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.02);
+}
+
+.js-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
+}
+
+.js-notes {
+  margin-top: 26px;
+  font-size: 11px;
+}
+
+/* ------------ RESPONSIVE ------------ */
+@media (max-width: 1100px) {
+  .js-uterus {
+    right: 80px;
+    height: 320px;
   }
 
-  .banner p, 
-  .horario, 
-  .sedes {
-    font-size: 14px;
-  }
-
-  .content {
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .box {
-    width: 100%;
-    flex: 1 1 100%;
-  }
-
-  .header {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .header img {
-    height: 50px;
+  .js-flores--left,
+  .js-flores--right {
+    height: 420px;
   }
 }
 
-@media (max-width: 480px) {
-  .banner h1 {
+@media (max-width: 900px) {
+  .js-hero {
+    padding: 32px 24px 40px;
+  }
+
+  .js-content {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .js-uterus {
+    position: static;
+    display: block;
+    margin: 30px auto 0;
+    transform: none;
+  }
+
+  .js-flores--left,
+  .js-flores--right {
+    opacity: 0.4;
+    height: 340px;
+  }
+}
+
+@media (max-width: 600px) {
+  .js-title {
+    font-size: 40px;
+  }
+
+  .js-title span {
+    font-size: 52px;
+  }
+
+  .js-subtitle {
+    font-size: 18px;
+  }
+
+  .js-time {
     font-size: 20px;
   }
 
-  .fechas {
-    font-size: 14px;
-    padding: 5px 10px;
-  }
-
-  .qr {
-    width: 100px;
-    font-size: 16px;
-    padding: 20px;
+  .js-uterus {
+    height: 260px;
   }
 }

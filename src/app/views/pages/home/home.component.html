@@ -1,61 +1,65 @@
-<div class="header">
- 
-  <div style="text-align: center;">
-  <img src="images/logo-01.png" alt="Logo 1" style="max-width: 45%; height: auto;" />
-</div>
-</div>
-
-<div class="banner">
-  <h1>Campaña gratuita de salud femenina</h1>
-  <p>Para servidores públicos del Congreso y sus dependencias</p>
-  <div class="fechas">Lunes 8 y martes 9 de diciembre</div>
-  <div class="horario">09:00 a 14:00 horas</div>
-  <div class="sedes">
-    <p><b>Congreso del Estado de México</b><br>
-      Plaza Hidalgo s/n, Col. Centro. Toluca, Edomex.</p>
-    <p><b>Voluntariado del Congreso del Estado de México</b><br>
-      Plutarco González No.111, Col. La Merced y Alameda Toluca de Lerdo, Estado de México</p>
+<!-- header blanco -->
+<header class="js-header">
+  <div class="js-header-inner">
+    <img src="images/logo-01.png" alt="Congreso" />
+    <!-- <img src="images/logo-voluntariado.png" alt="Voluntariado" /> -->
   </div>
-</div>
+</header>
 
-<!--<div class="content">
-  <div class="box">
-    <h2>1. Check up médico</h2>
-    <p><b>Requisitos</b></p>
-    <ul>
-      <li>Ayuno de 8 a 10 horas.</li>
-      <li>Entregar muestra de la primera orina de la mañana en envase esterilizado.</li>
-      <li>Indicar si hubo consumo de algún medicamento.</li>
-    </ul>
+<!-- sección principal -->
+<section class="js-hero">
+  <!-- fondo magenta con degradado oscuro a la izquierda -->
+  <div class="js-hero-bg"></div>
+
+  <!-- decoraciones -->
+  <img
+    src="images/hojas-izquierda.png"
+    alt=""
+    class="js-flores js-flores--left"
+  />
+  <img
+    src="images/hojas-izquierda.png"
+    alt=""
+    class="js-flores js-flores--right"
+  />
+  <img
+    src="images/Jornada-de-Salud-mujer.png"
+    alt="Salud femenina"
+    class="js-uterus"
+  />
+  <br><br>
+
+  <!-- contenido de texto -->
+  <div class="js-content">
+    <h1 class="js-title">
+      JORNADA DE<br />
+      <span>SALUD</span>
+    </h1>
+
+    <h2 class="js-subtitle">Citología cervical (Papanicolau)</h2>
+
+    <p class="js-desc">
+      Por la prevención y detección oportuna del cáncer cervicouterino,
+      dirigida a servidoras públicas del Congreso y sus dependencias
+    </p>
+
+    <p class="js-date">8 y 9 de diciembre 2025</p>
+    <p class="js-time">9:00 a 14:00 horas</p>
+
+    <p class="js-address">
+      Calle Plutarco González número 111, entre Pedro Ascencio y Villada.
+      Colonia La Merced y Alameda. Toluca, Edomex.
+    </p>
+
+    <p class="js-age">
+      Estudio para mujeres de entre 25 años y 64 años de edad
+    </p>
+
+    <button class="js-btn">Regístrate</button>
+
+    <p class="js-notes">
+      En las 48 horas previas: No haber tenido relaciones, no haber realizado duchas vaginales,
+      no haberse aplicado ningún tratamiento médico vaginal (óvulos, cremas o pomadas).
+    </p>
   </div>
-
-  <div class="box">
-    <h2>2. Antígeno prostático específico</h2>
-    <p><b>Requisitos</b></p>
-    <ul>
-      <li>Abstinencia sexual y evitar eyaculación durante 48 horas previas al estudio.</li>
-      <li>Evitar ejercicio intenso 48 horas previas al estudio (ciclismo, motociclismo).</li>
-      <li>Realizar la prueba previo al estudio de ultrasonido prostático o manipulación prostática (tacto, masaje, citoscopía).</li>
-      <li>Indicar si hubo consumo de algún medicamento.</li>
-    </ul>
-  </div>
-</div>
--->
-
-
-
-
-
-
-
-<div class="d-flex align-items-center justify-content-center mt-4">
-  <!--<img src="images/logo-02.png" alt="Logo 02" style="height: 250px; margin-right: 0.5rem;" />-->
-  <button class="btn btn-primary" [routerLink]="['/']">
-    Registro
-  </button>
-</div>
-
-<div class="footer">
-  Voluntariado del Congreso del Estado de México<br>
-  722 279 6499
-</div>
+</section>
