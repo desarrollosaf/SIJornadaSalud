@@ -438,7 +438,7 @@ interface PDFData {
   telefono: string;
   sede: string;
   horario: string;
-  citaId: number; // <-- ID de la cita para actualizar
+  citaId: number; 
 }
 
 export async function generarPDFBuffer(data: PDFData): Promise<Buffer> {
@@ -485,7 +485,7 @@ export async function generarPDFBuffer(data: PDFData): Promise<Buffer> {
     doc
   .fontSize(18)
   .font("Helvetica-Bold")
-  .fillColor("#7d0037") // ✅ Aplica el color
+  .fillColor("#7d0037") 
   .text("CAMPAÑA GRATUITA DE SALUD", {
     align: "center",
   })
@@ -504,7 +504,7 @@ export async function generarPDFBuffer(data: PDFData): Promise<Buffer> {
 
     doc.moveDown();
     doc.fontSize(11).text(
-      "El Voluntariado del Poder Legislativo del Estado de México organiza la Campaña gratuita de salud masculina, que incluye Check up médico y la prueba de Antígeno Prostático Específico (PSA).",
+      "El Voluntariado del Poder Legislativo del Estado de México organiza la Campaña gratuita de salud femenina, que incluye citología cervical (Papanicolau).",
       { align: "justify" }
     );
 
@@ -566,7 +566,14 @@ export const generarPDFCitas = async (req: Request, res: Response) => {
     }) as (Cita & { Sede?: { sede: string }, usuario?: any })[];
 
     // Obtener nombre de sede (o valor por defecto)
-    const sedeNombre = citas[0]?.Sede?.sede || "SIN SEDE";
+
+    const sede = await Sede.findOne({
+        where: {
+            id: sedeId
+        }
+    });
+
+    const sedeNombre = sede?.sede || 'SIN SEDE';
 
     // Obtener datos extra (nombre completo de usuario)
     for (const cita of citas) {
@@ -579,11 +586,11 @@ export const generarPDFCitas = async (req: Request, res: Response) => {
           raw: true
         });
         if (datos) {
-          (cita as any).datos_user = datos; // ✅ lo agregas directamente
+          (cita as any).datos_user = datos;  
         }
       }
     }
-    console.log(citas)
+
     function formatearFecha(fechaStr: string) {
       const [año, mes, dia] = fechaStr.split("-").map(Number);
       const fechaObj = new Date(año, mes - 1, dia); // mes-1 porque en JS enero = 0

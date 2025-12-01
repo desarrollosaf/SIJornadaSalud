@@ -414,7 +414,7 @@ function generarPDFBuffer(data) {
             doc
                 .fontSize(18)
                 .font("Helvetica-Bold")
-                .fillColor("#7d0037") // ✅ Aplica el color
+                .fillColor("#7d0037")
                 .text("CAMPAÑA GRATUITA DE SALUD", {
                 align: "center",
             })
@@ -430,7 +430,7 @@ function generarPDFBuffer(data) {
                 .text(`Ubicación: ${data.sede}`, { align: "left" })
                 .text(`Horario: ${data.horario}`, { align: "left" });
             doc.moveDown();
-            doc.fontSize(11).text("El Voluntariado del Poder Legislativo del Estado de México organiza la Campaña gratuita de salud masculina, que incluye Check up médico y la prueba de Antígeno Prostático Específico (PSA).", { align: "justify" });
+            doc.fontSize(11).text("El Voluntariado del Poder Legislativo del Estado de México organiza la Campaña gratuita de salud femenina, que incluye citología cervical (Papanicolau).", { align: "justify" });
             doc.moveDown();
             doc.fontSize(11).text("Para acceder a este beneficio, es indispensable presentar en el día y hora asignados la siguiente documentación:", { align: "justify" });
             doc.moveDown();
@@ -449,7 +449,6 @@ function generarPDFBuffer(data) {
     });
 }
 const generarPDFCitas = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
     try {
         const { fecha, sedeId } = req.params;
         const horarios = yield horarios_citas_1.default.findAll({
@@ -472,7 +471,12 @@ const generarPDFCitas = (req, res) => __awaiter(void 0, void 0, void 0, function
             raw: false
         });
         // Obtener nombre de sede (o valor por defecto)
-        const sedeNombre = ((_b = (_a = citas[0]) === null || _a === void 0 ? void 0 : _a.Sede) === null || _b === void 0 ? void 0 : _b.sede) || "SIN SEDE";
+        const sede = yield sedes_1.default.findOne({
+            where: {
+                id: sedeId
+            }
+        });
+        const sedeNombre = (sede === null || sede === void 0 ? void 0 : sede.sede) || 'SIN SEDE';
         // Obtener datos extra (nombre completo de usuario)
         for (const cita of citas) {
             if (cita.rfc) {
@@ -484,11 +488,10 @@ const generarPDFCitas = (req, res) => __awaiter(void 0, void 0, void 0, function
                     raw: true
                 });
                 if (datos) {
-                    cita.datos_user = datos; // ✅ lo agregas directamente
+                    cita.datos_user = datos;
                 }
             }
         }
-        console.log(citas);
         function formatearFecha(fechaStr) {
             const [año, mes, dia] = fechaStr.split("-").map(Number);
             const fechaObj = new Date(año, mes - 1, dia); // mes-1 porque en JS enero = 0
