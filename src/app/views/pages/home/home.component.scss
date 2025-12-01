@@ -69,7 +69,7 @@
   right: 380px;
   top: 50%;
   transform: translateY(-50%);
-  height: 360px;
+  height: 460px;
   filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.35));
   z-index: 0;
 }
@@ -85,39 +85,39 @@
 
 .js-title {
   margin: 0 0 6px;
-  font-size: 60px;
+  font-size: 90px;
   line-height: 0.9;
   font-weight: 800;
 }
 
 .js-title span {
-  font-size: 72px;
+  font-size: 90px;
 }
 
 .js-subtitle {
   margin: 8px 0 10px;
-  font-size: 24px;
+  font-size: 44px;
   font-weight: 700;
   color: #ffd34e;
 }
 
 .js-desc {
   margin: 10px 0 18px;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 1.5;
   max-width: 560px;
 }
 
 .js-date {
   margin: 0;
-  font-size: 20px;
+  font-size: 29px;
   font-weight: 700;
   color: #ffd34e;
 }
 
 .js-time {
   margin: 4px 0 16px;
-  font-size: 24px;
+  font-size: 29px;
   font-weight: 800;
   color: #ffd34e;
 }
