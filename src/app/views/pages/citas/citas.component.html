@@ -110,7 +110,7 @@
                     <!-- Formulario en filas de 2 columnas -->
                     <div class="row">
                     <!-- Horario -->
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-12 mb-3">
                         <label for="hora" class="form-label">Horario</label>
                         <select
                         id="hora"
@@ -126,7 +126,7 @@
                         </select>
                     </div>
 
-                    <!-- Sede -->
+                    <!-- Sede
                     <div class="col-md-6 mb-3" *ngIf="sedesDisponibles2.length > 0">
                         <label for="sede" class="form-label">Sede</label>
                         <select
@@ -140,7 +140,7 @@
                             {{ sede.sede_texto }}
                         </option>
                         </select>
-                    </div>
+                    </div> -->
 
                     <!-- Correo -->
                     <div class="col-md-6 mb-3">
@@ -208,7 +208,7 @@
                     <button
                     class="btn btn-primary mt-3"
                     (click)="guardarSeleccion()"
-                    [disabled]="!horaSeleccionada2 || !sedeSeleccionada || !correoUsuario || !telefonoUsuario || enviandoRegistro === 1"
+                    [disabled]="!horaSeleccionada2  || !correoUsuario || !telefonoUsuario || enviandoRegistro === 1"
                     >
                     <ng-container *ngIf="enviandoRegistro === 1; else iconoGuardar">
                         <span class="spinner-border spinner-border-sm me-1" role="status"></span>

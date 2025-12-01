@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Cita from "../models/citas";
-import HorarioCita from "../models/horarios_citas"; // ✅ corregido
+import HorarioCita from "../models/horarios_citas"; 
 import Sede from "../models/sedes";
 import { Op } from "sequelize";
 import { Sequelize, Model, DataTypes } from 'sequelize';
@@ -47,7 +47,7 @@ export const getHorariosDisponibles = async (req: Request, res: Response): Promi
           c => c.horario_id === h.id && c.sede_id === s.id
         ).length;
 
-        if (cantidadCitas < limite) {
+        if (!cantidadCitas) {
           sedesDisponibles.push({ sede_id: s.id, sede_texto: s.sede });
         }
       });
@@ -88,27 +88,54 @@ export const savecita = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
-    const cantidadCitas = await Cita.count({
-  where: {
-    horario_id: body.horario_id,
-    sede_id: body.sede_id,
-    fecha_cita: body.fecha_cita
-  }
-});
+    const sedes = await Sede.findAll();
+    const sedesDisponibles: any[] = [];
 
-if (cantidadCitas >= limite) {
-  return res.status(400).json({
-    status: 400,
-    msg: "Este horario ya está ocupado para la fecha y sede seleccionada"
-  });
-}
+    for (const sede of sedes) {
+        const citasSede = await Cita.findOne({
+            where: {
+                horario_id: body.horario_id,
+                sede_id: sede.id,
+                fecha_cita: body.fecha_cita
+            }
+        });
+
+        if (!citasSede ) {
+            sedesDisponibles.push(sede.id);
+        }
+    }
+ 
+    if (sedesDisponibles.length === 0) {
+        return res.status(400).json({
+            status: 400,
+            msg: "No hay consultorios disponibles para este horario y fecha"
+        });
+    }
+
+    const sedeAleatoria = sedesDisponibles[Math.floor(Math.random() * sedesDisponibles.length)];
+
+
+    /*const cantidadCitas = await Cita.count({
+      where: {
+        horario_id: body.horario_id,
+        sede_id: body.sede_id,
+        fecha_cita: body.fecha_cita
+      }
+    });
+
+    if (cantidadCitas >= limite) {
+      return res.status(400).json({
+        status: 400,
+        msg: "Este horario ya está ocupado para la fecha"
+      });
+    }*/
 
 
     const folio: number = Math.floor(10000000 + Math.random() * 90000000);
 
     const cita = await Cita.create({
       horario_id: body.horario_id,
-      sede_id: body.sede_id,
+      sede_id: sedeAleatoria,
       rfc: body.rfc,
       fecha_cita: body.fecha_cita,
       correo: body.correo,
@@ -123,66 +150,66 @@ if (cantidadCitas >= limite) {
     const horarios = await HorarioCita.findOne({
       where: { id: body.horario_id }
     });
-  const horario = horarios ? `${horarios.horario_inicio} - ${horarios.horario_fin}` : '';
-  const sede2 = (await Sede.findOne({ where: { id: body.sede_id } }))?.sede || "";
+    const horario = horarios ? `${horarios.horario_inicio} - ${horarios.horario_fin}` : '';
+    const sede2 = (await Sede.findOne({ where: { id: body.sede_id } }))?.sede || "";
 
    const Validacion = await dp_fum_datos_generales.findOne({ 
-  where: { f_rfc: body.rfc },
-  attributes: ["f_nombre", "f_primer_apellido", "f_segundo_apellido", "f_sexo", "f_fecha_nacimiento"]
-});
+      where: { f_rfc: body.rfc },
+      attributes: ["f_nombre", "f_primer_apellido", "f_segundo_apellido", "f_sexo", "f_fecha_nacimiento"]
+    });
 
-if (!Validacion) {
-  throw new Error("No se encontró información para el RFC proporcionado");
-}
-
-const nombreCompleto = [
-  Validacion.f_nombre,
-  Validacion.f_primer_apellido,
-  Validacion.f_segundo_apellido
-].filter(Boolean).join(" ");
-
-const sexo = Validacion.f_sexo || "";
-
-let edad = "";
-if (Validacion.f_fecha_nacimiento) {
-  const nacimiento = new Date(Validacion.f_fecha_nacimiento);
-  const hoy = new Date();
-  edad = (hoy.getFullYear() - nacimiento.getFullYear()).toString();
-  const mes = hoy.getMonth() - nacimiento.getMonth();
-  if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-    edad = (parseInt(edad) - 1).toString();
-  }
-}
-
-  const pdfBuffer = await generarPDFBuffer({
-    folio: cita.folio,
-    nombreCompleto: nombreCompleto,
-    sexo: sexo,
-    edad: edad,
-    correo: body.correo,
-    curp: body.rfc,
-    fecha: cita.fecha_cita,
-    telefono: body.telefono,
-    sede: sede2,
-    horario: horario,
-    citaId: cita.id 
-  });
-
-  // Enviar el PDF como respuesta al usuario
-  /*res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", `attachment; filename="Cita-${body.fecha_cita}.pdf"`);
-  res.send(pdfBuffer);*/
-
-  return res.json({
-    status: 200,
-    msg: "Cita registrada correctamente",
-  });
-
-    } catch (error) {
-      console.error('Error al guardar la cita:', error);
-      return res.status(500).json({ msg: 'Error interno del servidor' });
+    if (!Validacion) {
+      throw new Error("No se encontró información para el RFC proporcionado");
     }
-  };
+
+    const nombreCompleto = [
+      Validacion.f_nombre,
+      Validacion.f_primer_apellido,
+      Validacion.f_segundo_apellido
+    ].filter(Boolean).join(" ");
+
+    const sexo = Validacion.f_sexo || "";
+
+    let edad = "";
+    if (Validacion.f_fecha_nacimiento) {
+      const nacimiento = new Date(Validacion.f_fecha_nacimiento);
+      const hoy = new Date();
+      edad = (hoy.getFullYear() - nacimiento.getFullYear()).toString();
+      const mes = hoy.getMonth() - nacimiento.getMonth();
+      if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad = (parseInt(edad) - 1).toString();
+      }
+    }
+
+    const pdfBuffer = await generarPDFBuffer({
+      folio: cita.folio,
+      nombreCompleto: nombreCompleto,
+      sexo: sexo,
+      edad: edad,
+      correo: body.correo,
+      curp: body.rfc,
+      fecha: cita.fecha_cita,
+      telefono: body.telefono,
+      sede: sede2,
+      horario: horario,
+      citaId: cita.id 
+    });
+
+    // Enviar el PDF como respuesta al usuario
+    /*res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename="Cita-${body.fecha_cita}.pdf"`);
+    res.send(pdfBuffer);*/
+
+    return res.json({
+      status: 200,
+      msg: "Cita registrada correctamente",
+    });
+
+  } catch (error) {
+    console.error('Error al guardar la cita:', error);
+    return res.status(500).json({ msg: 'Error interno del servidor' });
+  }
+};
 
 export const getcitasagrupadas = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -459,7 +486,7 @@ export async function generarPDFBuffer(data: PDFData): Promise<Buffer> {
   .fontSize(18)
   .font("Helvetica-Bold")
   .fillColor("#7d0037") // ✅ Aplica el color
-  .text("CAMPAÑA GRATUITA DE SALUD MASCULINA", {
+  .text("CAMPAÑA GRATUITA DE SALUD", {
     align: "center",
   })
   .fillColor("black");
@@ -469,7 +496,7 @@ export async function generarPDFBuffer(data: PDFData): Promise<Buffer> {
     doc.font("Helvetica").fontSize(12).text(`Fecha cita: ${data.fecha}`, { align: "right" });
     doc.fontSize(12)
       .font("Helvetica")
-      .text(`Paciente: ${data.nombreCompleto} | Masculino | ${data.edad}`, { align: "left" })
+      .text(`Paciente: ${data.nombreCompleto} | Femenino | ${data.edad}`, { align: "left" })
       .text(`CURP: ${data.curp}`, { align: "left" })
       .text(`Correo electrónico: ${data.correo} | Teléfono: ${data.telefono}`, { align: "left" })
       .text(`Ubicación: ${data.sede}`, { align: "left" })

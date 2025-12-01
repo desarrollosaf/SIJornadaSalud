@@ -111,7 +111,7 @@ export class CitasComponent {
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
     locale: 'es',
-    initialDate: '2025-10-10',
+    initialDate: '2025-12-08',
     dateClick: this.onDateClick.bind(this),
     buttonText: {
       today: 'Hoy',
@@ -127,13 +127,13 @@ export class CitasComponent {
     dayMaxEvents: true,
 
     validRange: {
-      start: '2025-10-10',
-      end: '2025-10-11' 
+      start: '2025-12-08',
+      end: '2025-12-10' 
     },
 
     dayCellDidMount: (info) => {
       const dateStr = info.date.toISOString().split('T')[0];
-      if (dateStr !== '2025-10-10') {
+      if (dateStr !== '2025-12-08' && dateStr !== '2025-12-09') {
         info.el.style.backgroundColor = '#f8f9fa';
         info.el.style.pointerEvents = 'none';
         info.el.style.opacity = '0.3';
@@ -237,7 +237,7 @@ export class CitasComponent {
     const datos = {
       fecha_cita: this.fechaCitaEnvio,
       horario_id: this.horaSeleccionada2,
-      sede_id: this.sedeSeleccionada,
+      sede_id: '1',
       rfc: this.currentUser.rfc,
       correo: this.correoUsuario,
       telefono: this.telefonoUsuario
@@ -270,7 +270,7 @@ export class CitasComponent {
                   position: 'center',
                   icon: 'error',
                   title: "¡Atención!",
-                  text: "Ya tienes una cita activa",
+                  text: "Hora no disponible",
                   showConfirmButton: false,
                   timer: 5000
                 });
@@ -295,7 +295,7 @@ export class CitasComponent {
             position: 'center',
             icon: 'error',
             title: "¡Atención!",
-            text: "Ya tienes una cita activa",
+            text: "Hora no disponible",
             showConfirmButton: false,
             timer: 5000
           });

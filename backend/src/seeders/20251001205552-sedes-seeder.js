@@ -4,12 +4,17 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('sedes', [
       {
-        sede: 'Congreso del Estado de Mexico',
+        sede: 'Consultorio 1',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        sede: 'Voluntariado del Congreso del Estado de Mexico',
+        sede: 'Consultorio 2',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+       {
+        sede: 'Consultorio 3',
         createdAt: new Date(),
         updatedAt: new Date()
       }

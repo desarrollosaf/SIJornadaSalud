@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generalExcel = exports.generarExcelCitas = exports.generarPDFCitas = exports.getcitasFecha = exports.getCita = exports.getcitasagrupadas = exports.savecita = exports.getHorariosDisponibles = void 0;
 exports.generarPDFBuffer = generarPDFBuffer;
 const citas_1 = __importDefault(require("../models/citas"));
-const horarios_citas_1 = __importDefault(require("../models/horarios_citas")); // ✅ corregido
+const horarios_citas_1 = __importDefault(require("../models/horarios_citas"));
 const sedes_1 = __importDefault(require("../models/sedes"));
 const sequelize_1 = require("sequelize");
 const sequelize_2 = require("sequelize");
@@ -49,7 +49,7 @@ const getHorariosDisponibles = (req, res) => __awaiter(void 0, void 0, void 0, f
             const sedesDisponibles = [];
             sedes.forEach(s => {
                 const cantidadCitas = citas.filter(c => c.horario_id === h.id && c.sede_id === s.id).length;
-                if (cantidadCitas < limite) {
+                if (!cantidadCitas) {
                     sedesDisponibles.push({ sede_id: s.id, sede_texto: s.sede });
                 }
             });
@@ -83,23 +83,45 @@ const savecita = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 msg: "Ya existe una cita registrada con ese RFC"
             });
         }
-        const cantidadCitas = yield citas_1.default.count({
-            where: {
-                horario_id: body.horario_id,
-                sede_id: body.sede_id,
-                fecha_cita: body.fecha_cita
+        const sedes = yield sedes_1.default.findAll();
+        const sedesDisponibles = [];
+        for (const sede of sedes) {
+            const citasSede = yield citas_1.default.findOne({
+                where: {
+                    horario_id: body.horario_id,
+                    sede_id: sede.id,
+                    fecha_cita: body.fecha_cita
+                }
+            });
+            if (!citasSede) {
+                sedesDisponibles.push(sede.id);
             }
-        });
-        if (cantidadCitas >= limite) {
+        }
+        if (sedesDisponibles.length === 0) {
             return res.status(400).json({
                 status: 400,
-                msg: "Este horario ya está ocupado para la fecha y sede seleccionada"
+                msg: "No hay consultorios disponibles para este horario y fecha"
             });
         }
+        const sedeAleatoria = sedesDisponibles[Math.floor(Math.random() * sedesDisponibles.length)];
+        /*const cantidadCitas = await Cita.count({
+          where: {
+            horario_id: body.horario_id,
+            sede_id: body.sede_id,
+            fecha_cita: body.fecha_cita
+          }
+        });
+    
+        if (cantidadCitas >= limite) {
+          return res.status(400).json({
+            status: 400,
+            msg: "Este horario ya está ocupado para la fecha"
+          });
+        }*/
         const folio = Math.floor(10000000 + Math.random() * 90000000);
         const cita = yield citas_1.default.create({
             horario_id: body.horario_id,
-            sede_id: body.sede_id,
+            sede_id: sedeAleatoria,
             rfc: body.rfc,
             fecha_cita: body.fecha_cita,
             correo: body.correo,
@@ -393,7 +415,7 @@ function generarPDFBuffer(data) {
                 .fontSize(18)
                 .font("Helvetica-Bold")
                 .fillColor("#7d0037") // ✅ Aplica el color
-                .text("CAMPAÑA GRATUITA DE SALUD MASCULINA", {
+                .text("CAMPAÑA GRATUITA DE SALUD", {
                 align: "center",
             })
                 .fillColor("black");
@@ -402,7 +424,7 @@ function generarPDFBuffer(data) {
             doc.font("Helvetica").fontSize(12).text(`Fecha cita: ${data.fecha}`, { align: "right" });
             doc.fontSize(12)
                 .font("Helvetica")
-                .text(`Paciente: ${data.nombreCompleto} | Masculino | ${data.edad}`, { align: "left" })
+                .text(`Paciente: ${data.nombreCompleto} | Femenino | ${data.edad}`, { align: "left" })
                 .text(`CURP: ${data.curp}`, { align: "left" })
                 .text(`Correo electrónico: ${data.correo} | Teléfono: ${data.telefono}`, { align: "left" })
                 .text(`Ubicación: ${data.sede}`, { align: "left" })
